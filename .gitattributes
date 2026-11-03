@@ -1,0 +1,7 @@
+# .sh 必须是 LF，否则 macOS runner 上 bash 会报 $'\r': command not found
+*.sh text eol=lf
+*.dart text eol=lf
+*.swift text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.ps1 text eol=crlf
