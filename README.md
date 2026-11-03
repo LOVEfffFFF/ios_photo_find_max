@@ -72,6 +72,13 @@ IPA 是**未签名**的，需要用你自己的 Apple ID 重签后装进手机�
 
 免费 Apple ID 签的 App 7 天过期，过期后重装一次即可（照片数据在系统相册里，不随 App 卸载丢失）。
 
+## 产物位置
+
+编译完成后 IPA 固定放在 `C:\Users\OXO\Desktop\ios_photo_find_max\PhotoSize.ipa`（未签名）。
+校验方法：解包后 `Payload/Runner.app/Frameworks/App.framework/App` 里能搜到
+`com.photosize/photolib`（Dart 侧通道名），`Payload/Runner.app/Runner` 里能搜到
+`photo_size_cache.json`（原生侧缓存文件名）。
+
 ## 已知限制
 
 - 视频只显示封面帧，不播放（本 App 的定位是「按大小找文件」）
