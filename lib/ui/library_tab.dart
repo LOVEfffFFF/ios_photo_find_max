@@ -406,7 +406,7 @@ class _LimitedBanner extends StatelessWidget {
           const SizedBox(width: 8),
           const Expanded(
             child: Text(
-              '当前只能访问部分照片',
+              '当前只能访问部分照片，可在设置里改为「完整访问」',
               style: TextStyle(fontSize: 12.5, color: Color(0xFF8A5200)),
             ),
           ),
@@ -416,7 +416,7 @@ class _LimitedBanner extends StatelessWidget {
               minimumSize: const Size(0, 30),
               padding: const EdgeInsets.symmetric(horizontal: 8),
             ),
-            child: const Text('管理', style: TextStyle(fontSize: 13)),
+            child: const Text('去设置', style: TextStyle(fontSize: 13)),
           ),
         ],
       ),

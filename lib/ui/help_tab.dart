@@ -109,8 +109,8 @@ class HelpTab extends StatelessWidget {
           SliverToBoxAdapter(
             child: _ActionTile(
               icon: Icons.lock_open_outlined,
-              title: '管理可访问的照片',
-              subtitle: '当前是「部分访问」，可以在这里加选更多照片',
+              title: '修改相册权限',
+              subtitle: '当前是「部分访问」，在设置里可以改成「完整访问」',
               onTap: () => const PhotoLibraryApi().presentLimitedPicker(),
             ),
           ),

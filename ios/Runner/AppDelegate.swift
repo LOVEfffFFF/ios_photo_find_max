@@ -182,20 +182,13 @@ import UIKit
         }
     }
 
+    /// 「部分访问」时引导用户去改权限。
+    ///
+    /// 不用 `PHPhotoLibrary.presentLimitedLibraryPicker(from:)`：当前 Xcode SDK
+    /// 里已经没有这个成员（CI 编译报 no member）。退回打开本 App 的设置页，
+    /// 用户可以在那里把相册权限改成「完整访问」或重新勾选可访问的照片。
     private func presentLimitedPicker(result: @escaping FlutterResult) {
-        guard let root = window?.rootViewController else {
-            result(false)
-            return
-        }
-        // 已经是「完整访问」时这个调用无意义，直接返回 false 让界面别弹
-        guard PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited else {
-            result(false)
-            return
-        }
-        DispatchQueue.main.async {
-            PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: root)
-            result(true)
-        }
+        openSettings(result: result)
     }
 
     // MARK: - 资产列表
@@ -682,7 +675,8 @@ import UIKit
             return
         }
         PHPhotoLibrary.shared().performChanges({
-            guard let change = PHAssetChangeRequest(for: asset) else { return }
+            // 这个 SDK 里 init(for:) 不是可失败初始化，别写成 guard let
+            let change = PHAssetChangeRequest(for: asset)
             if favorite {
                 change.isFavorite = value
             } else {
