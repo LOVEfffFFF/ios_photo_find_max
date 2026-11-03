@@ -47,7 +47,8 @@ try {
     $branches = (& gh api "repos/$repo/branches" --jq '.[].name' 2>$null | Out-String).Trim()
     if ($branches -match ("(?m)^" + $branch + "$")) {
         $parent = (& gh api "repos/$repo/branches/$branch" --jq .commit.sha 2>$null | Out-String).Trim()
-        $parentTree = Invoke-GhJson -Method GET -Path "repos/$repo/git/commits/$parent" -Body $null
+        # base_tree must be a TREE sha, not the commit sha
+        $parentTree = Invoke-GhJson -Method GET -Path "repos/$repo/git/commits/$parent" -Body $null -Jq '.tree.sha'
         Write-Output "parent commit = $parent"
         Write-Output "parent tree   = $parentTree"
     } else {

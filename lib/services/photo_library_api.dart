@@ -81,7 +81,7 @@ class PhotoLibraryApi {
     });
   }
 
-  static Future<String> authorizationStatus() async {
+  Future<String> authorizationStatus() async {
     try {
       final raw = await _channel.invokeMethod('authorizationStatus');
       if (raw is Map) return '${raw['status'] ?? 'unknown'}';
@@ -93,7 +93,7 @@ class PhotoLibraryApi {
     return 'unknown';
   }
 
-  static Future<String> requestAuthorization() async {
+  Future<String> requestAuthorization() async {
     try {
       final raw = await _channel.invokeMethod('requestAuthorization');
       if (raw is Map) return '${raw['status'] ?? 'unknown'}';
@@ -105,7 +105,7 @@ class PhotoLibraryApi {
     return 'unknown';
   }
 
-  static Future<LibrarySnapshot> loadAssets({bool includeHidden = false}) async {
+  Future<LibrarySnapshot> loadAssets({bool includeHidden = false}) async {
     try {
       final raw = await _channel.invokeMethod('loadAssets', {
         'includeHidden': includeHidden,
@@ -153,7 +153,7 @@ class PhotoLibraryApi {
     );
   }
 
-  static Future<ScanResult> computeSizes({
+  Future<ScanResult> computeSizes({
     bool force = false,
     bool allowNetwork = false,
   }) async {
@@ -193,16 +193,16 @@ class PhotoLibraryApi {
   }
 
   /// 网格缩略图。返回 JPEG 字节，失败返回 null。
-  static Future<Uint8List?> thumbnail(String id, {int px = 320}) async {
+  Future<Uint8List?> thumbnail(String id, {int px = 320}) async {
     return _image('thumbnail', id, px: px, quality: 0.82);
   }
 
   /// 大图预览（详情页）。视频返回的是封面帧。
-  static Future<Uint8List?> preview(String id, {int px = 1600}) async {
+  Future<Uint8List?> preview(String id, {int px = 1600}) async {
     return _image('preview', id, px: px, quality: 0.9);
   }
 
-  static Future<Uint8List?> _image(
+  Future<Uint8List?> _image(
     String method,
     String id, {
     required int px,
@@ -225,7 +225,7 @@ class PhotoLibraryApi {
     return null;
   }
 
-  static Future<AssetDetail?> assetDetail(String id) async {
+  Future<AssetDetail?> assetDetail(String id) async {
     if (id.isEmpty) return null;
     try {
       final raw = await _channel.invokeMethod('assetDetail', {'id': id});
@@ -246,7 +246,7 @@ class PhotoLibraryApi {
   ///
   /// `confirm` 在 Dart 侧硬编码为 true（原生侧也强制校验），
   /// 避免任何调用方「忘记传」导致误删。
-  static Future<DeleteResult> deleteAssets(List<String> ids) async {
+  Future<DeleteResult> deleteAssets(List<String> ids) async {
     if (ids.isEmpty) {
       return const DeleteResult(deleted: 0, failed: 0, error: '没有选中任何项目');
     }
@@ -271,13 +271,13 @@ class PhotoLibraryApi {
     return const DeleteResult(deleted: 0, failed: 0, error: '原生返回格式异常');
   }
 
-  static Future<bool> setFavorite(String id, bool value) =>
+  Future<bool> setFavorite(String id, bool value) =>
       _setFlag('setFavorite', id, value);
 
-  static Future<bool> setHidden(String id, bool value) =>
+  Future<bool> setHidden(String id, bool value) =>
       _setFlag('setHidden', id, value);
 
-  static Future<bool> _setFlag(String method, String id, bool value) async {
+  Future<bool> _setFlag(String method, String id, bool value) async {
     try {
       final raw = await _channel.invokeMethod(method, {'id': id, 'value': value});
       if (raw is Map) return raw['ok'] == true;
@@ -287,7 +287,7 @@ class PhotoLibraryApi {
     return false;
   }
 
-  static Future<void> openSettings() async {
+  Future<void> openSettings() async {
     try {
       await _channel.invokeMethod('openSettings');
     } catch (_) {
@@ -295,7 +295,7 @@ class PhotoLibraryApi {
     }
   }
 
-  static Future<bool> presentLimitedPicker() async {
+  Future<bool> presentLimitedPicker() async {
     try {
       final raw = await _channel.invokeMethod('presentLimitedPicker');
       return raw == true;

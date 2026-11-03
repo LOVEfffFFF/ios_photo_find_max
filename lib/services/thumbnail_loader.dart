@@ -42,7 +42,7 @@ class ThumbnailLoader {
   Future<Uint8List?> _fetch(String key, String id, int px) async {
     await _acquire();
     try {
-      final bytes = await PhotoLibraryApi.thumbnail(id, px: px);
+      final bytes = await const PhotoLibraryApi().thumbnail(id, px: px);
       if (bytes != null && bytes.isNotEmpty) {
         _cache[key] = bytes;
         while (_cache.length > _maxEntries) {
@@ -102,7 +102,7 @@ class PreviewLoader {
     final pending = _inflight[key];
     if (pending != null) return pending;
 
-    final future = PhotoLibraryApi.preview(id, px: px).then((bytes) {
+    final future = const PhotoLibraryApi().preview(id, px: px).then((bytes) {
       if (bytes != null && bytes.isNotEmpty) {
         _cache[key] = bytes;
         while (_cache.length > _maxEntries) {

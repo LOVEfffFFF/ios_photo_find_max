@@ -396,7 +396,7 @@ class LibraryController extends ChangeNotifier {
       return <PhotoSection>[
         PhotoSection(
           title: bucketFilter!.label,
-          subtitle: '${_visible.length} 项 · ${_formatBytes(_visibleBytes)}',
+          subtitle: '${_visible.length} 项 · ${_formatBytes(visibleBytes)}',
           items: _visible,
         ),
       ];
